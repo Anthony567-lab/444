@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header,
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        nav a {
+            color: #fff;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        
+        nav a:hover {
+            text-shadow: 1px 1px 3px #aaa;
+        }
+        
+        main {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .projects,
+        .skills,
+        .contact-section {
+            background: #e43b3b;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 1 4px 8px rgb(240, 242, 247);
+        }
+        
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .project {
+            background: #f0eff5;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .project:hover {
+            transform: scale(1.05);
+        }
+        
+        .profile-pic {
+            width: 200px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal,
+        .confirm-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        
+        .modal-content,
+        .confirm-modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .modal.show,
+        .confirm-modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .btn-primary {
+            background-color: #28a745;
+            color: #fff;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        input,
+        textarea {
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        @media (min-width: 768px) {
+            main {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>My Portfolio</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About Me</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    <main>
+        <section id="home">
+            <h2>Welcome!</h2>
+            <img src="img/2.jpeg" alt="Profile Picture" class="profile-pic" onclick="openModal()">
+        </section>
+        <section class="projects">
+            <h2>Projects</h2>
+            <div class="project"> <a herf="https://www.youtube.com/">link to youtube</a>Project 1</div>
+            <div class="project">Project 2</div>
+            <div class="project">Project 3</div>
+        </section>
+
+        <section class="skills">
+            <h2>Skills</h2>
+            <ul>
+                <li><i class="fas fa-code"></i> HTML, CSS, JavaScript</li>
+                <li><i class="fas fa-laptop-code"></i> Responsive Design</li>
+                <li><i class="fas fa-database"></i> Database Management</li>
+            </ul>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <h2>Contact Me</h2>
+            <form id="contactForm">
+                <input type="text" placeholder="Your Name" required />
+                <input type="email" placeholder="Your Email" required />
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </section>
+
+    </main>
+    <footer>
+        <p>&copy; 2025 My Portfolio</p>
+    </footer>
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <h2>About Me</h2>
+            <p>Hello! My Name Is Anthony Joe. I am a creative and passionate web developer eager to bring ideas to life through clean, efficient code.</p>
+            <button class="btn btn-danger" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+    <div class="confirm-modal" id="confirmModal">
+        <div class="confirm-modal-content">
+            <p>Are you sure you want to submit this form?</p>
+            <button class="btn btn-primary" onclick="submitForm()">Yes</button>
+            <button class="btn btn-danger" onclick="cancelSubmit()">Cancel</button>
+        </div>
+    </div>
+    <script>
+        const aboutModal = document.getElementById('aboutModal');
+        const confirmModal = document.getElementById('confirmModal');
+        const form = document.getElementById('contactForm');
+
+        function openModal() {
+            aboutModal.classList.add('show');
+        }
+
+        function closeModal() {
+            aboutModal.classList.remove('show');
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            confirmModal.classList.add('show');
+        });
+
+        function submitForm() {
+            confirmModal.classList.remove('show');
+            alert('Form submitted successfully!');
+            form.reset();
+        }
+
+        function cancelSubmit() {
+            confirmModal.classList.remove('show');
+        }
+    </script>
+</body>
+
+</html>
